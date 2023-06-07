@@ -22,3 +22,12 @@ if (!file_exists($distFolder)) {
 }
 
 file_put_contents($distFolder . '/optiGov.php', $compiledCode);
+
+// print success message
+echo 'Successfully compiled the library into a single file `dist/optiGov.php`.' . PHP_EOL;
+
+// print the size of the compiled code
+echo 'Size of compiled code: ' . strlen($compiledCode) . ' bytes' . PHP_EOL;
+
+// return as success
+return 0;
