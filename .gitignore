@@ -1,5 +1,6 @@
 # ide
 .idea
 
-# test files
+# test, build, etc. files and folders
+dist
 optiGov.json
