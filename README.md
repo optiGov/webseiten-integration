@@ -14,7 +14,7 @@ in der einzigen Datei `optiGov.php` zusammengefasst.
 Ein klonen dieses Repositories und eigenes Kompilieren ist aber nicht notwendig.
 Eine stets aktuelle Version der Datei `optiGov.php` kann direkt hier als Release heruntergeladen werden:
 
-<kbd><br>[⬇️ Download optiGov.php ⬇️](https://github.com/optigov/webseiten-integration/releases/latest/download/optiGov.php)<br> </kbd>
+[![https://img.shields.io/badge/Library%20Herunterladen-506DE2?style=for-the-badge&logoColor=white&logo=DocuSign]](https://github.com/optigov/webseiten-integration/releases/latest/download/optiGov.php)
 
 ## Einbindung
 
