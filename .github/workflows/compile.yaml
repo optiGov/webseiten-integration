@@ -14,7 +14,7 @@ jobs:
       - name: Compile
         run: php compile.php
       - name: Save compiled file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
-          name: optiGov
-          path: optiGov.php
+          name: optiGov Webseiten-Integration
+          path: dist/optiGov.php
