@@ -1,0 +1,20 @@
+name: Compile `/src` to single file
+
+on: [push]
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+      - name: Compile
+        run: php compile.php
+      - name: Save compiled file
+        uses: actions/upload-artifact@v2
+        with:
+          name: optiGov
+          path: optiGov.php
