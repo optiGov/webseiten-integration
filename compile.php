@@ -1,7 +1,7 @@
 <?php
 
 // this file is used to compile the library into a single file
-$compiledCode = '';
+$compiledCode = '<?php ' . PHP_EOL;
 
 // iterate over all files in the src folder
 $srcFolder = __DIR__ . '/src';
@@ -10,7 +10,17 @@ $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($srcFol
 // append all files to the compiled code
 foreach ($iterator as $file) {
     if ($file->isFile()) {
-        $compiledCode .= file_get_contents($file->getPathname()) . PHP_EOL;
+        // get the code of the file
+        $code = file_get_contents($file->getPathname()) . PHP_EOL;
+
+        // remove the <?php tag from the code
+        $code = str_replace('<?php', '', $code);
+
+        // remove the closing tag from the code
+        $code = str_replace('?>', '', $code);
+
+        // append the code to the compiled code
+        $compiledCode .= $code;
     }
 }
 
@@ -27,7 +37,7 @@ file_put_contents($distFolder . '/optiGov.php', $compiledCode);
 echo 'Successfully compiled the library into a single file `dist/optiGov.php`.' . PHP_EOL;
 
 // print the size of the compiled code
-echo 'Size of compiled code: ' . strlen($compiledCode) . ' bytes' . PHP_EOL;
+echo 'Size of compiled code: ' . round(strlen($compiledCode)/1000, 2) . ' kB' . PHP_EOL;
 
 // return as success
 return 0;
