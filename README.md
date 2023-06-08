@@ -55,5 +55,5 @@ optiGov::renderWidget('/de/buergerservice');
   RewriteCond %{REQUEST_URI} !^/js/
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteRule ^(.*)$ index.html?url=$1 [QSA,L]
+  RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
   ```
