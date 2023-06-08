@@ -19,8 +19,8 @@ Eine stets aktuelle Version der Datei `optiGov.php` kann direkt von der optiGov-
 ### Dateistruktur
 
 Um z.B. den Bürgerservice unter `https://optistadt.de/de/buergerservice` zu installieren muss in dem
-Ordner `/de/buergerservice` die kompilierte Datei `optiGov.php` (s.o.), die Konfigurationsdatei `optiGov.json` und
-Ihre `index.php` liegen.
+Ordner `/de/buergerservice` die kompilierte Datei `optiGov.php` (s.o.), die Konfigurationsdatei `optiGov.json` 
+(s. [Konfiguration](#konfiguration)) und Ihre `index.php`-Datei (die Inhaltsseite Ihrer Website) liegen.
 
 ```bash
 /optistadt.de
@@ -32,7 +32,7 @@ Ihre `index.php` liegen.
 ```
 
 Die Einbindung erfolgt durch das Inkludieren der Datei `optiGov.php` auf der `index.php`, welche hier den gesamten
-Bürgerservice mit allen Routen enthält.
+Bürgerservice mit allen Routen enthält (s. [Verwendung](#verwendung)).
 
 ### Konfiguration
 
@@ -69,7 +69,7 @@ optiGov::renderWidget('/de/buergerservice');
 
 Möchten Sie nur einzelne Komponenten des Widgets verwenden, können Sie diese mit der
 Funktion `optiGov::renderComponent(...)`
-einbinden. Diese Funktion erwartet als Parameter den Namen der Komponente. Eine Liste aller verfügbaren Komponenten und
+einbinden. Diese Funktion erwartet als Parameter den Namen der Komponente und ggf. ein Objekt an Eigenschaften. Eine Liste aller verfügbaren Komponenten und
 deren Namen finden Sie in der Dokumentation auf der Seite
 der [JavaScript-Widget Anbindung](https://doku.optigov.de/javascript-widget/anbindung).
 
@@ -80,7 +80,7 @@ der [JavaScript-Widget Anbindung](https://doku.optigov.de/javascript-widget/anbi
 // ...
 
 require_once __DIR__ . '/optiGov.php';
-optiGov::renderComponent(/'de/buergerservice', component: "mitarbeiter", properties: ["id" => 330]);
+optiGov::renderComponent(/'de/buergerservice', component: 'mitarbeiter', properties: ['id' => 330]);
 ```
 
 ## Hinweise
