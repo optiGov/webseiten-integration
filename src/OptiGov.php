@@ -17,14 +17,11 @@ class OptiGov
         // ensure that the path starts with a slash and does not end with a slash
         $path = '/' . trim($path, '/');
 
-        // get base directory of the library
-        $baseDirectory = dirname(__FILE__);
-
         // handle .htaccess creation
-        OptiGovHtaccessProvider::createIfNotExists($baseDirectory);
+        OptiGovHtaccessProvider::createIfNotExists(static::getBaseDirectory());
 
         // load the config
-        $config = OptiGovConfigProvider::load($baseDirectory, $config, $path);
+        $config = OptiGovConfigProvider::load(static::getBaseDirectory(), $config, $path);
 
         // check if the request is coming from a bot
         if(!OptiGovBotDetector::isRequestFromBot()){
@@ -50,16 +47,38 @@ class OptiGov
         // ensure that the path starts with a slash and does not end with a slash
         $path = '/' . trim($path, '/');
 
-        // get base directory of the library
-        $baseDirectory = dirname(__FILE__);
-
         // load the config
-        $config = OptiGovConfigProvider::load($baseDirectory, $config, $path);
+        $config = OptiGovConfigProvider::load(static::getBaseDirectory(), $config, $path);
 
         // check if the request is coming from a bot
         if(!OptiGovBotDetector::isRequestFromBot()){
             // request is coming from a user, render the widget
             OptiGovWidgetRenderer::renderComponent($config, $component, $properties);
         }
+    }
+
+    /**
+     * Returns all entries from the api.
+     *
+     * @param string $path The path in the URL that should be used to render the widget.
+     * @param string|array $config The path to the config file or the config itself.
+     * @return array
+     * @throws Exception
+     */
+    public static function getAllResources(string $path, string|array $config = "./optiGov.json"): array {
+        // load the config
+        $config = OptiGovConfigProvider::load(static::getBaseDirectory(), $config, $path);
+
+        // return the resources
+        return OptiGovApiClient::getAllEntries($config)["verwaltung"] ?? [];
+    }
+
+    /**
+     * Returns the base directory of the library.
+     *
+     * @return string
+     */
+    private static function getBaseDirectory(): string {
+        return dirname(__FILE__);
     }
 }
