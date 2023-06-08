@@ -13,17 +13,7 @@ jobs:
           php-version: 8.2
       - name: Compile
         run: php compile.php
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          # This is how it will be named on the release page. Put hatever name
-          # you like, remember that they need to be different for each platform.
-          # You can choose any build matrix parameters. For Rust I use the
-          # target triple.
-          asset_name: program-name-${{ matrix.config.os }}
-          # The path to the file you want to upload.
-          asset_path: ./dist/optiGov.php
-          asset_content_type: application/php
+          files: dist/optiGov.php
