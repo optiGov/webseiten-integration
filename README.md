@@ -12,7 +12,9 @@ Um das Hosting und die Einbindung sehr einfach zu halten werden alle Dateien mit
 in der einzigen Datei `optiGov.php` zusammengefasst.
 
 Ein klonen dieses Repositories und eigenes Kompilieren ist aber nicht notwendig.
-Eine stets aktuelle Version der Datei `optiGov.php` kann direkt von der optiGov-Doku heruntergelanden werden.
+Eine stets aktuelle Version der Datei `optiGov.php` kann direkt hier als Release heruntergeladen werden:
+
+<kbd> <br> [Aktuelle `optiGov.php`-Datei herunterladen][https://github.com/optigov/webseiten-integration/releases/latest/download/optiGov.php] <br> </kbd>
 
 ## Einbindung
 
