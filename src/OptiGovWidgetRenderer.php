@@ -42,7 +42,7 @@ EOT;
         $installation = $config->getInstallation();
 
         // add the component to the properties
-        $properties = array_merge_recursive($properties, ["mode" => $component]);
+        $properties = array_replace_recursive($properties, ["mode" => $component]);
 
         // convert the properties to JSON
         $properties = json_encode($properties);

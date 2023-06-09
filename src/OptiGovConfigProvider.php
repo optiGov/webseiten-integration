@@ -19,8 +19,8 @@ class OptiGovConfigProvider
             $config = self::loadConfigFromFile($baseDirectory, $config);
         }
 
-        // merge with default config and return the config
-        $config = array_merge_recursive(self::getDefaultConfig($path), $config);
+        // replace default config with given one and return the resulting config
+        $config = array_replace_recursive(self::getDefaultConfig($path), $config);
 
         // ensure that required config values are set
         self::ensureRequiredConfigValuesAreSet($config);
