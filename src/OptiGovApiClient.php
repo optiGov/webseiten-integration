@@ -93,6 +93,8 @@ EOT;
 query {
     dienstleistung(id: {$id}){
             leistungsname
+            begriffe_im_kontext
+            kurztext
             volltext
             hinweise
     }

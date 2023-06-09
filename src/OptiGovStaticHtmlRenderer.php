@@ -112,8 +112,15 @@ class OptiGovStaticHtmlRenderer
 
         // get the variables
         $leistungsname = $data["leistungsname"] ?? null;
+        $synonyme = $data["begriffe_im_kontext"] ?? null;
+        $kurztext = $data["kurztext"] ?? null;
         $volltext = $data["volltext"] ?? null;
         $hinweise = $data["hinweise"] ?? null;
+
+        // edit head
+        static::setHeadTitle($leistungsname);
+        static::setHeadMetaDescription($kurztext);
+        static::setHeadKeywords($synonyme);
 
         // compose the html
         $html = "<h1>$leistungsname</h1>";
@@ -145,6 +152,10 @@ class OptiGovStaticHtmlRenderer
                 . ($data["gebaeude"]["plz"] ?? null) . " " . ($data["gebaeude"]["ort"] ?? null);
         }
 
+        // edit head
+        static::setHeadTitle($name);
+        static::setHeadMetaDescription($beschreibung);
+
         // compose the html
         $html = "<h1>$name</h1>";
         $html .= $beschreibung != null ? "<div><h2>Beschreibung</h2><div>$beschreibung</div></div>" : "";
@@ -169,11 +180,95 @@ class OptiGovStaticHtmlRenderer
         $name = $data["name"] ?? null;
         $raum = $data["raum"] ?? null;
 
+        // edit head
+        static::setHeadTitle($name);
 
         // compose the html
         $html = "<h1>$name</h1>";
         $html .= $raum != null ? "<div><h2>Raum</h2><div>$raum</div></div>" : "";
 
         return $html;
+    }
+
+    /**
+     * Set the meta description tag with JavaScript.
+     *
+     * @param string|null $description
+     * @return void
+     */
+    private static function setHeadMetaDescription(string|null $description): void
+    {
+        // if there is no description, do nothing
+        if($description === null) {
+            return;
+        }
+
+        // strip tags
+        $description = strip_tags($description);
+
+        // print js code
+        print <<<EOF
+        <script>
+            (function(){   
+                let metaElement = document.querySelector("meta[name='description']");
+                if(metaElement === null) {
+                    let headElement = document.querySelector("head");
+                    metaElement = document.createElement("meta");
+                    headElement.appendChild(metaElement);
+                }
+                metaElement.setAttribute("name", "description");
+                metaElement.setAttribute("content", "$description");
+            })()
+        </script>   
+EOF;
+    }
+
+    /**
+     * Sets the page title with JavaScript.
+     *
+     * @param string|null $title
+     */
+    private static function setHeadTitle(string|null $title): void
+    {
+        // if there is no title, do nothing
+        if($title === null) {
+            return;
+        }
+
+        // print js code
+        print <<<EOF
+        <script>
+            document.title = "$title";
+        </script>
+EOF;
+    }
+
+    /**
+     * Sets the page keywords with JavaScript.
+     *
+     * @param string|null $keywords
+     */
+    private static function setHeadKeywords(string|null $keywords): void
+    {
+        // if there are no keywords, do nothing
+        if($keywords === null) {
+            return;
+        }
+
+        // print js code
+        print <<<EOF
+        <script>
+            (function(){   
+                let metaElement = document.querySelector("meta[name='keywords']");
+                if(metaElement === null) {
+                    let headElement = document.querySelector("head");
+                    metaElement = document.createElement("meta");
+                    headElement.appendChild(metaElement);
+                }
+                metaElement.setAttribute("name", "keywords");
+                metaElement.setAttribute("content", "$keywords");
+            })()
+        </script>
+EOF;
     }
 }
