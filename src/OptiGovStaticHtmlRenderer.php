@@ -92,6 +92,9 @@ class OptiGovStaticHtmlRenderer
         // get the header
         $headerDienstleistungen = $config->get("texts.dienstleistungPlural", "Dienstleistungen");
 
+        // set page header
+        static::setHeadTitle("Alle $headerDienstleistungen");
+
         $html = "<h1>Alle $headerDienstleistungen</h1><ul>";
         // iterate over $data["dienstleistungen"]
         foreach ($data as $dienstleistung) {
@@ -122,6 +125,9 @@ class OptiGovStaticHtmlRenderer
         // get the header
         $headerEinrichtungen = $config->get("texts.einrichtungPlural", "Einrichtungen");
 
+        // set page header
+        static::setHeadTitle("Alle $headerEinrichtungen");
+
         $html = "<h1>Alle $headerEinrichtungen</h1><ul>";
         // iterate over $data
         foreach ($data as $einrichtung) {
@@ -150,6 +156,9 @@ class OptiGovStaticHtmlRenderer
 
         // get the header
         $headerMitarbeiter = $config->get("texts.mitarbeiterPlural", "Mitarbeiter");
+
+        // set page header
+        static::setHeadTitle("Alle $headerMitarbeiter");
 
         $html = "<h1>Alle $headerMitarbeiter</h1><ul>";
         // iterate over $data["mitarbeiter"]
