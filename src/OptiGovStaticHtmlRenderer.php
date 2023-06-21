@@ -3,9 +3,12 @@
 class OptiGovStaticHtmlRenderer
 {
     private const ROUTE_STARTSEITE = "startseite";
-    private const ROUTE_DIENSTLEISTUNG = "dienstleistung";
-    private const ROUTE_EINRICHTUNG = "einrichtung";
-    private const ROUTE_MITARBEITER = "mitarbeiter";
+    private const ROUTE_DIENSTLEISTUNG_INDEX = "alleDienstleistungen";
+    private const ROUTE_EINRICHTUNG_INDEX = "alleEinrichtungen";
+    private const ROUTE_MITARBEITER_INDEX = "alleMitarbeiter";
+    private const ROUTE_DIENSTLEISTUNG_DETAIL = "dienstleistung";
+    private const ROUTE_EINRICHTUNG_DETAIL = "einrichtung";
+    private const ROUTE_MITARBEITER_DETAIL = "mitarbeiter";
 
     /**
      * Render the static HTML code depending on the given config and requested path.
@@ -28,10 +31,13 @@ class OptiGovStaticHtmlRenderer
 
                 // check which route was matched
                 $html = match ($routeName) {
-                    self::ROUTE_STARTSEITE => self::getStartseite($config),
-                    self::ROUTE_DIENSTLEISTUNG => self::renderDienstleistung($config, $id),
-                    self::ROUTE_EINRICHTUNG => self::renderEinrichtung($config, $id),
-                    self::ROUTE_MITARBEITER => self::renderMitarbeiter($config, $id),
+                    self::ROUTE_STARTSEITE => self::renderStartseite($config),
+                    self::ROUTE_DIENSTLEISTUNG_INDEX => self::renderDienstleistungIndex($config),
+                    self::ROUTE_EINRICHTUNG_INDEX => self::renderEinrichtungIndex($config),
+                    self::ROUTE_MITARBEITER_INDEX => self::renderMitarbeiterIndex($config),
+                    self::ROUTE_DIENSTLEISTUNG_DETAIL => self::renderDienstleistung($config, $id),
+                    self::ROUTE_EINRICHTUNG_DETAIL => self::renderEinrichtung($config, $id),
+                    self::ROUTE_MITARBEITER_DETAIL => self::renderMitarbeiter($config, $id),
                 };
 
                 // render the html
@@ -48,11 +54,8 @@ class OptiGovStaticHtmlRenderer
      * @param OptiGovConfig $config
      * @return string
      */
-    private static function getStartseite(OptiGovConfig $config): string
+    private static function renderStartseite(OptiGovConfig $config): string
     {
-        // get the data
-        $data = OptiGovApiClient::getAllEntries($config)["verwaltung"] ?? null;
-
         // get the headers
         $headerBuergerservice = $config->get("texts.buergerservice", "Bürgerservice");
         $headerDienstleistungen = $config->get("texts.dienstleistungPlural", "Dienstleistungen");
@@ -62,9 +65,36 @@ class OptiGovStaticHtmlRenderer
         // compose the html
         $html = "<h1>$headerBuergerservice</h1>";
 
-        $html .= "<h2>Alle $headerDienstleistungen</h2><ul>";
+        // add links to index pages
+        $url = OptiGovUrlGenerator::generateDienstleistungIndexUrl($config);
+        $html .= "<div><a href='$url'>Alle {$headerDienstleistungen}</a></div>";
+
+        $url = OptiGovUrlGenerator::generateEinrichtungIndexUrl($config);
+        $html .= "<div><a href='$url'>Alle {$headerEinrichtungen}</a></div>";
+
+        $url = OptiGovUrlGenerator::generateMitarbeiterIndexUrl($config);
+        $html .= "<div><a href='$url'>Alle {$headerMitarbeiter}</a></div>";
+
+        return $html;
+    }
+
+    /**
+     * Render the Dienstleistung index page.
+     *
+     * @param OptiGovConfig $config
+     * @return string
+     */
+    private static function renderDienstleistungIndex(OptiGovConfig $config): string
+    {
+        // get the data
+        $data = OptiGovApiClient::getAllDienstleistungEntries($config);
+
+        // get the header
+        $headerDienstleistungen = $config->get("texts.dienstleistungPlural", "Dienstleistungen");
+
+        $html = "<h1>Alle $headerDienstleistungen</h1><ul>";
         // iterate over $data["dienstleistungen"]
-        foreach ($data["dienstleistungen"] as $dienstleistung) {
+        foreach ($data as $dienstleistung) {
             ;
             // get the url
             $url = OptiGovUrlGenerator::generateDienstleistungUrl($config, $dienstleistung["id"]);
@@ -73,9 +103,28 @@ class OptiGovStaticHtmlRenderer
             $html .= "<li><a href='$url'>{$dienstleistung["leistungsname"]}</a><br></li>";
         }
 
-        $html .= "</ul><h2>Alle $headerEinrichtungen</h2><ul>";
-        // iterate over $data["einrichtungen"]
-        foreach ($data["einrichtungen"] as $einrichtung) {
+        $html .= "</ul>";
+
+        return $html;
+    }
+
+    /**
+     * Render the Einrichtung index page.
+     *
+     * @param OptiGovConfig $config
+     * @return string
+     */
+    private static function renderEinrichtungIndex(OptiGovConfig $config): string
+    {
+        // get the data
+        $data = OptiGovApiClient::getAllEinrichtungEntries($config);
+
+        // get the header
+        $headerEinrichtungen = $config->get("texts.einrichtungPlural", "Einrichtungen");
+
+        $html = "<h1>Alle $headerEinrichtungen</h1><ul>";
+        // iterate over $data
+        foreach ($data as $einrichtung) {
             // get the url
             $url = OptiGovUrlGenerator::generateEinrichtungUrl($config, $einrichtung["id"]);
 
@@ -83,9 +132,28 @@ class OptiGovStaticHtmlRenderer
             $html .= "<li><a href='$url'>{$einrichtung["name"]}</a><br></li>";
         }
 
-        $html .= "</ul><h2>Alle $headerMitarbeiter</h2><ul>";
+        $html .= "</ul>";
+
+        return $html;
+    }
+
+    /**
+     * Render the Mitarbeiter index page.
+     *
+     * @param OptiGovConfig $config
+     * @return string
+     */
+    private static function renderMitarbeiterIndex(OptiGovConfig $config): string
+    {
+        // get the data
+        $data = OptiGovApiClient::getAllMitarbeiterEntries($config);
+
+        // get the header
+        $headerMitarbeiter = $config->get("texts.mitarbeiterPlural", "Mitarbeiter");
+
+        $html = "<h1>Alle $headerMitarbeiter</h1><ul>";
         // iterate over $data["mitarbeiter"]
-        foreach ($data["mitarbeiter"] as $mitarbeiter) {
+        foreach ($data as $mitarbeiter) {
             // get the url
             $url = OptiGovUrlGenerator::generateMitarbeiterUrl($config, $mitarbeiter["id"]);
 

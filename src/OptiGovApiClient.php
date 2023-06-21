@@ -80,6 +80,75 @@ EOT;
     }
 
     /**
+     * Returns all Dienstleistung entries.
+     *
+     * @param OptiGovConfig $config
+     * @return array
+     */
+    public static function getAllDienstleistungEntries(OptiGovConfig $config): array
+    {
+        // build the query
+        $query = <<<EOT
+query {
+    verwaltung(id: {$config->getVerwaltungId()}){
+        dienstleistungen{
+            id
+            leistungsname
+        }
+    }
+}
+EOT;
+
+        return self::request($config, $query)["verwaltung"]["dienstleistungen"] ?? [];
+    }
+
+    /**
+     * Returns all Einrichtung entries.
+     *
+     * @param OptiGovConfig $config
+     * @return array
+     */
+    public static function getAllEinrichtungEntries(OptiGovConfig $config): array
+    {
+        // build the query
+        $query = <<<EOT
+query {
+    verwaltung(id: {$config->getVerwaltungId()}){
+        einrichtungen{
+            id
+            name
+        }
+    }
+}
+EOT;
+
+        return self::request($config, $query)["verwaltung"]["einrichtungen"] ?? [];
+    }
+
+    /**
+     * Returns all Mitarbeiter entries.
+     *
+     * @param OptiGovConfig $config
+     * @return array
+     */
+    public static function getAllMitarbeiterEntries(OptiGovConfig $config): array
+    {
+        // build the query
+        $query = <<<EOT
+query {
+    verwaltung(id: {$config->getVerwaltungId()}){
+        mitarbeiter{
+            id
+            name
+        }
+    }
+}
+EOT;
+
+        return self::request($config, $query)["verwaltung"]["mitarbeiter"] ?? [];
+    }
+
+    /**
      * Returns a specific Dienstleistung entry.
      *
      * @param OptiGovConfig $config
