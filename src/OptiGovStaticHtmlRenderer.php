@@ -203,6 +203,7 @@ class OptiGovStaticHtmlRenderer
         $html = "<h1>$leistungsname</h1>";
         $html .= $volltext !== null ? "<div><h2>Details</h2><div>$volltext</div></div>" : "";
         $html .= $hinweise !== null ? "<div><h2>Hinweise</h2><div>$hinweise</div></div>" : "";
+        $html .= $synonyme !== null ? "<div><h2>Begriffe im Kontext</h2><div>$synonyme</div></div>" : "";
 
         return $html;
     }
