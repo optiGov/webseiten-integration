@@ -257,6 +257,7 @@ class OptiGovStaticHtmlRenderer
         // get the variables
         $name = $data["name"] ?? null;
         $raum = $data["raum"] ?? null;
+        $servicezeiten = $data["servicezeiten"] ?? null;
 
         // edit head
         static::setHeadTitle($name);
@@ -264,6 +265,7 @@ class OptiGovStaticHtmlRenderer
         // compose the html
         $html = "<h1>$name</h1>";
         $html .= $raum != null ? "<div><h2>Raum</h2><div>$raum</div></div>" : "";
+        $html .= $servicezeiten != null ? "<div><h2>Servicezeiten</h2><div>$servicezeiten</div></div>" : "";
 
         return $html;
     }

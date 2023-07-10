@@ -217,6 +217,7 @@ query {
     mitarbeiter(id: {$id}){
             name
             raum
+            servicezeiten
     }
 }
 EOT;
