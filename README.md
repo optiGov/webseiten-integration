@@ -82,7 +82,7 @@ der [JavaScript-Widget Anbindung](https://doku.optigov.de/javascript-widget/anbi
 // ...
 
 require_once __DIR__ . '/optiGov.php';
-optiGov::renderComponent(/'de/buergerservice', component: 'mitarbeiter', properties: ['id' => 330]);
+optiGov::renderComponent('/de/buergerservice', component: 'mitarbeiter', properties: ['id' => 2]);
 ```
 
 ## Hinweise
