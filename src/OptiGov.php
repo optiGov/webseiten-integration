@@ -23,14 +23,8 @@ class OptiGov
         // load the config
         $config = OptiGovConfigProvider::load(static::getBaseDirectory(), $config, $path);
 
-        // check if the request is coming from a bot
-        if(!OptiGovBotDetector::isRequestFromBot()){
-            // request is coming from a user, render the widget
-            OptiGovWidgetRenderer::render($config);
-        }else{
-            // request is coming from a bot, render the static HTML code
-            OptiGovStaticHtmlRenderer::render($config);
-        }
+        // render widget
+        OptiGovWidgetRenderer::render($config);
     }
 
     /**
